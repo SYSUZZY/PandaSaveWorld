@@ -1,0 +1,89 @@
+# 3ds Max Wavefront OBJ Exporter v0.94b - (c)2007 guruware
+# 创建的文件:13.07.2016 16:07:19
+
+newmtl _A01937_A01937Branches_03
+	Ns 30.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 0.8902 0.8627
+	Ks 0.9000 0.9000 0.9000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka maps\Branches_03.png
+	map_Kd maps\Branches_03.png
+	map_d maps\Branches_03.png
+	map_bump maps\Branches_03_Normal.png
+	bump maps\Branches_03_Normal.png
+
+newmtl _A01937_A01937Cap_01
+	Ns 30.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 0.8902 0.8627
+	Ks 0.9000 0.9000 0.9000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka maps\Cap_01.png
+	map_Kd maps\Cap_01.png
+	map_d maps\Cap_01.png
+	map_bump maps\Cap_01_Normal.png
+	bump maps\Cap_01_Normal.png
+
+newmtl _A01937_A01937HuangshanPineBark
+	Ns 64.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.2745 0.2745 0.2745
+	Ke 0.0000 0.0000 0.0000
+	map_Ka maps\HuangshanPineBark.png
+	map_Kd maps\HuangshanPineBark.png
+	map_d maps\HuangshanPineBark.png
+	map_bump maps\HuangshanPineBark_Normal.png
+	bump maps\HuangshanPineBark_Normal.png
+
+newmtl _A01937_A01937HuangshanPineNeedles_1
+	Ns 64.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.9922 1.0000 1.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka maps\HuangshanPineNeedles_1.png
+	map_Kd maps\HuangshanPineNeedles_1.png
+	map_Ks maps\HuangshanPineNeedles_1_Spec.png
+	map_d maps\HuangshanPineNeedles_1.png
+	map_bump maps\HuangshanPineNeedles_1_Normal.png
+	bump maps\HuangshanPineNeedles_1_Normal.png
+
+newmtl _A01937_A01937HuangshanPineNeedles_2
+	Ns 64.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.9922 1.0000 1.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka maps\HuangshanPineNeedles_2.png
+	map_Kd maps\HuangshanPineNeedles_2.png
+	map_Ks maps\HuangshanPineNeedles_2_Spec.png
+	map_d maps\HuangshanPineNeedles_2.png
+	map_bump maps\HuangshanPineNeedles_2_Normal.png
+	bump maps\HuangshanPineNeedles_2_Normal.png
