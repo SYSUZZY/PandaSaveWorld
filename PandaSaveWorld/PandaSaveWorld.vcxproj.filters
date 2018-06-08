@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="src\model">
+      <UniqueIdentifier>{d32d0c31-9f12-4aa2-81ba-b035cf32d506}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\mesh">
+      <UniqueIdentifier>{4baefa6a-29db-4fc1-9d5b-f9603e68a507}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\camera">
+      <UniqueIdentifier>{932f9ee6-b8dd-43ec-b8f4-eb5856ab4eb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\shader">
+      <UniqueIdentifier>{823557b4-bcfe-4523-bc53-c6f6ba4d5644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\tools">
+      <UniqueIdentifier>{84251b9b-cee2-4d1b-a667-e22aa9d1ff6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\texture">
+      <UniqueIdentifier>{f46bf073-93f8-4b11-9e88-f232fca24f99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\controller">
+      <UniqueIdentifier>{af009f7f-d7ba-4413-83be-b277c5f0b570}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsEngine.cpp">
+      <Filter>src\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Flame.cpp">
+      <Filter>src\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="texture.cpp">
+      <Filter>src\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_image.cpp">
+      <Filter>src\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>src\model</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh.cpp">
+      <Filter>src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>src\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="shader.cpp">
+      <Filter>src\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneController.cpp">
+      <Filter>src\controller</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerController.cpp">
+      <Filter>src\controller</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseController.cpp">
+      <Filter>src\controller</Filter>
+    </ClCompile>
+    <ClCompile Include="MeteoriteController.cpp">
+      <Filter>src\controller</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="model.h">
+      <Filter>src\model</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh.h">
+      <Filter>src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>src\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="shader.h">
+      <Filter>src\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsEngine.h">
+      <Filter>src\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Flame.h">
+      <Filter>src\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>src\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>src\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneController.h">
+      <Filter>src\controller</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerController.h">
+      <Filter>src\controller</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseController.h">
+      <Filter>src\controller</Filter>
+    </ClInclude>
+    <ClInclude Include="MeteoriteController.h">
+      <Filter>src\controller</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

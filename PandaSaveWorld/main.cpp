@@ -90,7 +90,6 @@ int main() {
 	MeteoriteController meteoriteController(&physicsEngine);
 	meteoriteController.initMeteorite();
 
-
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window)) {

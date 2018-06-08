@@ -7,7 +7,6 @@
 *.sln.docstates
 *.sln
 *.vcxproj
-*.filters
 *.user
 *.opendb
 .vs/
