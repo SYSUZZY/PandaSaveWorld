@@ -7,7 +7,6 @@ SceneController::SceneController(PhysicsEngine* physicsEngine) {
 void SceneController::initScene() {
 	BaseController::compileShader("../res/shader/1.model_loading.vs", "../res/shader/1.model_loading.fs", "scene");
 	BaseController::loadModel("../res/model/scene/scene.obj", "scene");
-	BaseController::setFlame("flame1", Flame());
 	setSceneCollisionBox();
 }
 
@@ -24,11 +23,6 @@ void SceneController::renderScene(Camera *currentCamera, float deltaTime) {
 	sceneShader->setMat4("model", model_scene);
 	Model *sceneModel = getModel("scene");
 	sceneModel->Draw(*sceneShader);
-					
-	// render flame
-	glm::mat4 model_flame;
-	model_flame = glm::translate(model_flame, glm::vec3(0.0f, 0.0f, 0.0f));
-	getFlame("flame1")->Render(deltaTime, model_flame, view, projection);
 }
 
 void SceneController::setSceneCollisionBox() {

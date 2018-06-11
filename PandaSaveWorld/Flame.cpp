@@ -26,8 +26,7 @@ Flame::Flame() {
 	mRenderShader->use();
 	mRenderShader->setInt("flameSpark", 0);
 	mRenderShader->setInt("flameStart", 1);
-	glm::vec3 pos(0.0, 0.0, -3.0f);
-	InitFlame(pos);
+	InitFlame(center);
 }
 
 
@@ -40,7 +39,7 @@ bool Flame::InitFlame(glm::vec3 & pos) {
 	particles[0].type = PARTICLE_TYPE_LAUNCHER;//设置第一个粒子的类型为发射器
 	particles[0].position = pos;
 	particles[0].lifetimeMills = 0.0f;
-	particles[0].velocity = glm::vec3(0.0f, 0.1f, 0.0f);
+	particles[0].velocity = glm::vec3(0.0f, 0.1f, 0.0f);//原始值为(0.0f, 0.1f, 0.0f)
 	GenInitLocation(particles, INIT_PARTICLES);
 	glGenTransformFeedbacks(2, mTransformFeedbacks);
 	glGenBuffers(2, mParticleBuffers);
@@ -164,8 +163,8 @@ void Flame::RenderParticles(glm::mat4& worldMatrix,
 	// disable
 	glDisable(GL_POINT_SPRITE);
 	glDisable(GL_PROGRAM_POINT_SIZE);
-	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
 }
 
 void Flame::InitRandomTexture(unsigned int size) {
@@ -190,7 +189,7 @@ void Flame::GenInitLocation(FlameParticle particles[], int nums) {
 	srand(time(NULL));
 	int n = 10;
 	float Adj_value = 0.05f;
-	float radius = 0.7f;//火焰地区半径
+	//float radius = 0.3f;
 	for (int x = 0; x < nums; x++) {
 		glm::vec3 record(0.0f);
 		for (int y = 0; y < n; y++) {//生成高斯分布的粒子，中心多，外边少
@@ -198,16 +197,28 @@ void Flame::GenInitLocation(FlameParticle particles[], int nums) {
 			record.z += (2.0f*float(rand()) / float(RAND_MAX) - 1.0f);
 		}
 		record.x *= radius;
+		record.x += center.x;
 		record.z *= radius;
+		record.z += center.z;
 		record.y = center.y;
 		particles[x].type = PARTICLE_TYPE_LAUNCHER;
 		particles[x].position = record;
 		particles[x].velocity = DEL_VELOC*(float(rand()) / float(RAND_MAX)) + MIN_VELOC;//在最大最小速度之间随机选择
-		particles[x].alpha = 1.0f;
+		particles[x].alpha = 0.0f;// 原始值为1.0f
 		particles[x].size = INIT_SIZE;//发射器粒子大小
 										//在最短最长寿命之间随机选择
 		particles[x].lifetimeMills = (MAX_LIFE - MIN_LIFE)*(float(rand()) / float(RAND_MAX)) + MIN_LIFE;
 		float dist = sqrt(record.x*record.x + record.z*record.z);
 		particles[x].life = particles[x].lifetimeMills;
 	}
+}
+
+void Flame::SetRaidus(float newRadius)
+{
+	radius = newRadius;
+}
+
+glm::vec3 Flame::GetCenter()
+{
+	return center;
 }

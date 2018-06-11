@@ -11,24 +11,21 @@
 #define PARTICLE_TYPE_LAUNCHER 0.0f
 #define PARTICLE_TYPE_SHELL 1.0f
 	//最大速度
-#define MAX_VELOC glm::vec3(0.0,5.0,0.0)
+#define MAX_VELOC glm::vec3(0.0,5.0,0.0)//原始值(0.0, 5.0, 0.0)
 	//最小速度
-#define MIN_VELOC glm::vec3(0.0,3.0,0.0)
+#define MIN_VELOC glm::vec3(0.0,3.0,0.0)//原始值(0.0, 3.0, 0.0)
 	//最大最小速度差距
 #define DEL_VELOC glm::vec3(0.0,2.0,0.0)
 	//最长生命周期
-#define MAX_LIFE 2.0f*1000
+#define MAX_LIFE 2.0f*1000//原始值2.0f*1000
 	//最短生命周期
-#define MIN_LIFE 1.0f*1000  
+#define MIN_LIFE 1.0f*1000//原始值1.0f*1000
 	//初始点精灵大小
 #define INIT_SIZE 30.0f;
 
-const int MAX_PARTICLES = 18000;//定义粒子发射系统最大的粒子数
+const int MAX_PARTICLES = 18000;//定义粒子发射系统最大的粒子数，极限值为18000
 //初始发射器例子数量
-const int INIT_PARTICLES = 10000;
-//火焰中心
-const glm::vec3 center(0.0f);
-const float r = 0.3f;
+const int INIT_PARTICLES = 10000;//初始化时粒子发射数量，原始值为10000
 
 struct FlameParticle {
 	float type;
@@ -46,6 +43,8 @@ public:
 	Flame();
 	~Flame();
 	void Render(float frametimeMills, glm::mat4& worldMatrix, glm::mat4 viewMatrix, glm::mat4& projectMatrix);
+	void SetRaidus(float newRadius);
+	glm::vec3 GetCenter();
 
 private:
 	bool InitFlame(glm::vec3& pos);
@@ -65,5 +64,7 @@ private:
 	bool mFirst;
 	Shader* mUpdateShader;  // 更新粒子的GPUProgram
 	Shader* mRenderShader;  // 渲染粒子的GPUProgram
+	glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);// 火焰中心位置
+	float radius = 0.8f;// 火焰地区半径，原始值0.7f
 };
 
