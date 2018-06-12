@@ -50,11 +50,7 @@ public:
 	void jumpAndUpdateVelocity();    //按下space跳跃时调用
 									 //每帧绘制的时候更新摄像机垂直方向移动
 
-
 	void updateItemMovement(glm::vec3 & cameraPos, glm::vec3 & targetPos);
-
-	// 应用重力
-	void applyGravity(bool flag);
 
 private:
 	// 空间外部边缘碰撞检测

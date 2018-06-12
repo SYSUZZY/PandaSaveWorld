@@ -10,6 +10,7 @@
 *.user
 *.opendb
 .vs/
+*.db
 
 # Build results  
   
