@@ -112,7 +112,6 @@ bool SegmentIntersect(glm::vec2 p1, glm::vec2 p2, glm::vec2 p3, glm::vec2 p4) {
 
 
 void PhysicsEngine::checkInsideCollisionXZ(glm::vec3 innerBoundaryMin, glm::vec3 innerBoundaryMax, glm::vec3 & cameraPos, glm::vec3 & targetPos) {
-	const float d = 2.0f;
 	float tarX = targetPos.x, camX = cameraPos.x, tarZ = targetPos.z, camZ = cameraPos.z;
 	float len = sqrt((camX - tarX)*(camX - tarX) + (camZ - tarZ)*(camZ - tarZ));
 

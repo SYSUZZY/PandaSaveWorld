@@ -27,6 +27,11 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 
+PhysicsEngine physicsEngine;
+SceneController sceneController(&physicsEngine);
+PlayerController playerController(&physicsEngine, glm::vec3(0.0f, 20.0f, 0.0f));
+MeteoriteController meteoriteController(&physicsEngine);
+
 // camera
 Camera camera(glm::vec3(0.0f, 1.0f, -20.0f));
 float lastX = SCR_WIDTH / 2.0f;
@@ -81,13 +86,13 @@ int main() {
 
 	// ≥ı ºªØ≥°æ∞
 	// -----------------------------
-	PhysicsEngine physicsEngine;
 
-	SceneController sceneController(&physicsEngine);
+
+
 	sceneController.initScene();
-	PlayerController playerController(&physicsEngine);
+
 	playerController.initPlayer();
-	MeteoriteController meteoriteController(&physicsEngine);
+
 	meteoriteController.initMeteorite();
 
 	// render loop
@@ -136,6 +141,16 @@ void processInput(GLFWwindow *window) {
 		camera.ProcessKeyboard(LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(RIGHT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		playerController.ProcessKeyboard(FORWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+		playerController.ProcessKeyboard(BACKWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+		playerController.ProcessKeyboard(LEFT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+		playerController.ProcessKeyboard(RIGHT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		playerController.ProcessKeyboard(UP, deltaTime);
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
