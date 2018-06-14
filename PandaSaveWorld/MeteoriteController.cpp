@@ -29,7 +29,7 @@ void MeteoriteController::renderMeteorite(Camera * currentCamera, float deltaTim
 	glm::mat4 projection = glm::perspective(currentCamera->Zoom, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 1000.0f);
 	glm::mat4 view = currentCamera->GetViewMatrix();
 	model_flame = glm::translate(model_flame, glm::vec3(0.0f, -2.0f, 0.0f));
-	//model_flame = glm::translate(model_flame, dir * curTime * speed);
+	model_flame = glm::translate(model_flame, dir * curTime * speed / 10.0f);//»ðÑæ¸úËæÔÉÊ¯ÒÆ¶¯
 	getFlame("flame1")->Render(deltaTime, model_flame, view, projection);
 }
 

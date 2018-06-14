@@ -34,6 +34,11 @@ Flame::~Flame(){}
 
 
 bool Flame::InitFlame(glm::vec3 & pos) {
+	//初始化属性
+	center = glm::vec3(0.0f, 0.0f, 0.0f);// 火焰中心位置
+	radius = 0.9f;// 火焰地区半径
+
+	// 初始化粒子
 	FlameParticle particles[MAX_PARTICLES];
 	memset(particles, 0, sizeof(particles));
 	particles[0].type = PARTICLE_TYPE_LAUNCHER;//设置第一个粒子的类型为发射器

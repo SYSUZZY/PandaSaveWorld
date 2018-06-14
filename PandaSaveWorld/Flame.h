@@ -11,15 +11,15 @@
 #define PARTICLE_TYPE_LAUNCHER 0.0f
 #define PARTICLE_TYPE_SHELL 1.0f
 	//最大速度
-#define MAX_VELOC glm::vec3(3.0,7.0,3.0)//原始值(0.0, 5.0, 0.0)
+#define MAX_VELOC glm::vec3(30.0,70.0,30.0)
 	//最小速度
-#define MIN_VELOC glm::vec3(1.0,5.0,1.0)//原始值(0.0, 3.0, 0.0)
+#define MIN_VELOC glm::vec3(28.0,68.0,28.0)
 	//最大最小速度差距
 #define DEL_VELOC glm::vec3(2.0,2.0,2.0)
 	//最长生命周期
-#define MAX_LIFE 2.0f*1000//原始值2.0f*1000
+#define MAX_LIFE 0.2f*1000//原始值2.0f*1000
 	//最短生命周期
-#define MIN_LIFE 1.0f*1000//原始值1.0f*1000
+#define MIN_LIFE 0.1f*1000//原始值1.0f*1000
 	//初始点精灵大小
 #define INIT_SIZE 30.0f;
 
@@ -64,7 +64,7 @@ private:
 	bool mFirst;
 	Shader* mUpdateShader;  // 更新粒子的GPUProgram
 	Shader* mRenderShader;  // 渲染粒子的GPUProgram
-	glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);// 火焰中心位置
-	float radius = 0.8f;// 火焰地区半径，原始值0.7f
+	glm::vec3 center;// 火焰中心位置
+	float radius;// 火焰半径
 };
 
