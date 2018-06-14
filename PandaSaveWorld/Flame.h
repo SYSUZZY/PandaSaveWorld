@@ -11,9 +11,9 @@
 #define PARTICLE_TYPE_LAUNCHER 0.0f
 #define PARTICLE_TYPE_SHELL 1.0f
 	//最大速度
-#define MAX_VELOC glm::vec3(30.0,70.0,30.0)
+#define MAX_VELOC glm::vec3(-20.0,70.0,-20.0)
 	//最小速度
-#define MIN_VELOC glm::vec3(28.0,68.0,28.0)
+#define MIN_VELOC glm::vec3(-18.0,68.0,-18.0)
 	//最大最小速度差距
 #define DEL_VELOC glm::vec3(2.0,2.0,2.0)
 	//最长生命周期

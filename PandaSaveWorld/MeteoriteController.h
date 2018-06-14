@@ -21,10 +21,13 @@ public:
 	// 渲染陨石
 	void renderMeteorite(Camera *currentCamera, float deltaTime);
 
-	float speed;
-	float curTime;
-	glm::vec3 dir;
 private:
+	// 属性变量
+	float speed;//陨石的移动速度
+	float curTime;//累计移动时间
+	glm::vec3 dir;//方向向量（需归一化）
+	glm::vec3 from;//起点坐标
+	glm::vec3 dest;//目标坐标
 
 	// 设置碰撞盒子(未完成)
 	void setMeteoriteCollisionBox();
