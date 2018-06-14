@@ -21,6 +21,9 @@ public:
 	// 渲染陨石
 	void renderMeteorite(Camera *currentCamera, float deltaTime);
 
+	float speed;
+	float curTime;
+	glm::vec3 dir;
 private:
 
 	// 设置碰撞盒子(未完成)
