@@ -72,13 +72,19 @@ void PlayerController::renderPlayer(Camera * currentCamera, float deltaTime) {
 
 	// 更新panda的位置
 	updatePlayerMovement();
-	// std::cout << "x: " << Position.x << "y: " << Position.y << "z: " << Position.z << std::endl;
+	std::cout << "x: " << Position.x << "y: " << Position.y << "z: " << Position.z << std::endl;
 
+	// 更新骨骼动画
 	glm::mat4 model_panda;
 	model_panda = glm::translate(model_panda, Position);
 	model_panda = glm::scale(model_panda, glm::vec3(0.01f, 0.01f, 0.01f));	// it's a bit too big for our scene, so scale it down
 	pandaShader->setMat4("model", model_panda);
-	getModel("panda")->Draw(*pandaShader);
+
+	Model *panda = getModel("panda");
+	panda->OnDraw();
+	panda->meshes[0].updateMesh();
+
+	panda->Draw(*pandaShader);
 }
 
 

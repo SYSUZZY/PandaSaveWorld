@@ -25,10 +25,15 @@ void Model::loadModel(string const &path) {
 
 	// process ASSIMP's root node recursively
 	processNode(scene->mRootNode, scene);
+
+	processAnimation(scene);
 }
 
 
 void Model::processNode(aiNode *node, const aiScene *scene) {
+
+	vector<Node> childs;
+
 	// process each mesh located at the current node
 	for (unsigned int i = 0; i < node->mNumMeshes; i++) {
 		// the node object only contains indices to index the actual objects in the scene. 
@@ -38,8 +43,35 @@ void Model::processNode(aiNode *node, const aiScene *scene) {
 	}
 	// after we've processed all of the meshes (if any) we then recursively process each of the children nodes
 	for (unsigned int i = 0; i < node->mNumChildren; i++) {
+
+		Node tempChildNode;
+		memcpy(tempChildNode.name, node->mChildren[i]->mName.C_Str(), node->mChildren[i]->mName.length + 1);
+		aiMatrix4x4 tempMatrix = node->mChildren[i]->mTransformation;
+		tempChildNode.transformation = glm::mat4(tempMatrix.a1, tempMatrix.a2, tempMatrix.a3, tempMatrix.a4,
+			tempMatrix.b1, tempMatrix.b2, tempMatrix.b3, tempMatrix.b4,
+			tempMatrix.c1, tempMatrix.c2, tempMatrix.c3, tempMatrix.c4,
+			tempMatrix.d1, tempMatrix.d2, tempMatrix.d3, tempMatrix.d4);
+		memcpy(tempChildNode.parentName, node->mName.C_Str(), node->mName.length + 1);
+
+		childs.push_back(tempChildNode);
+
 		processNode(node->mChildren[i], scene);
 	}
+
+	Node tempNode; 
+	memcpy(tempNode.name, node->mName.C_Str(), node->mName.length + 1);
+	aiMatrix4x4 tempMatrix = node->mTransformation;
+	tempNode.transformation = glm::mat4(tempMatrix.a1, tempMatrix.a2, tempMatrix.a3, tempMatrix.a4,
+		tempMatrix.b1, tempMatrix.b2, tempMatrix.b3, tempMatrix.b4,
+		tempMatrix.c1, tempMatrix.c2, tempMatrix.c3, tempMatrix.c4,
+		tempMatrix.d1, tempMatrix.d2, tempMatrix.d3, tempMatrix.d4);
+	if (node->mParent)
+		memcpy(tempNode.parentName, node->mParent->mName.C_Str(), node->mParent->mName.length + 1);
+	else
+		memcpy(tempNode.parentName, "", 1);
+
+	nodes.push_back(tempNode);
+	nodepairs.push_back(make_pair(tempNode, childs));
 }
 
 
@@ -48,6 +80,7 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
 	vector<Vertex> vertices;
 	vector<unsigned int> indices;
 	vector<Texture> textures;
+	vector<Bone> bones;
 
 	// Walk through each of the mesh's vertices
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
@@ -84,6 +117,24 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
 		vector.y = mesh->mBitangents[i].y;
 		vector.z = mesh->mBitangents[i].z;
 		vertex.Bitangent = vector;
+		// weight
+		int currentbone = 0;
+		for (unsigned int boneindex = 0; boneindex < mesh->mNumBones; boneindex++) {
+			aiBone* bone = mesh->mBones[boneindex];
+			for (unsigned int weightindex = 0; weightindex < bone->mNumWeights; weightindex++) {
+				if (mesh->mBones[boneindex]->mWeights[weightindex].mVertexId == i) {
+					Weight weight;
+					weight.boneid = boneindex;
+					weight.weight = mesh->mBones[boneindex]->mWeights[weightindex].mWeight;
+					if (currentbone == VERTEX_MAX_BONE) {
+						cout << "Error: " << "bone count > " << VERTEX_MAX_BONE << endl;
+						getchar();
+					}
+					vertex.Weights[currentbone++] = weight;
+				}
+			}
+		}
+
 		vertices.push_back(vertex);
 	}
 	// now wak through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
@@ -115,10 +166,200 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
 	std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
 	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
+	//Process bones;  
+	for (size_t boneindex = 0; boneindex < mesh->mNumBones; boneindex++) {
+		Bone bone;
+		aiBone* bonesrc = mesh->mBones[boneindex];
+		memcpy(bone.name, bonesrc->mName.C_Str(), bonesrc->mName.length + 1);
+		for (size_t xindex = 0; xindex < 4; xindex++) {
+			for (size_t yindex = 0; yindex < 4; yindex++) {
+				bone.offsetMatrix[xindex][yindex] = bonesrc->mOffsetMatrix[xindex][yindex];
+			}
+		}
+		bones.push_back(bone);
+	}
+
 	// return a mesh object created from the extracted mesh data
-	return Mesh(vertices, indices, textures);
+	return Mesh(vertices, indices, textures, bones);
 }
 
+// 处理所有的Animation;  
+void Model::processAnimation(const aiScene* scene) {
+	for (size_t animationindex = 0; animationindex < scene->mNumAnimations; animationindex++) {
+		Animation animation;
+		aiAnimation* animationsrc = scene->mAnimations[animationindex];
+
+		//Animation 名字;  
+		memcpy(animation.name, animationsrc->mName.C_Str(), animationsrc->mName.length + 1);
+		animation.duration = animationsrc->mDuration;
+		animation.ticksPerSecond = animationsrc->mTicksPerSecond;
+		animation.numChannels = animationsrc->mNumChannels;
+
+		//处理这个Animation下的所有的Channel(一个joint的动画集合);  
+		for (size_t channelindex = 0; channelindex < animationsrc->mNumChannels; channelindex++) {
+			AnimationChannel animationChannel;
+			aiNodeAnim* channel = animationsrc->mChannels[channelindex];
+			memcpy(animationChannel.nodeName, channel->mNodeName.C_Str(), channel->mNodeName.length);
+
+			//位移动画;  
+			animationChannel.numPositionKeys = channel->mNumPositionKeys;
+			for (size_t positionkeyindex = 0; positionkeyindex < channel->mNumPositionKeys; positionkeyindex++) {
+				AnimationChannelKeyVec3 animationChannelKey;
+				aiVectorKey vectorKey = channel->mPositionKeys[positionkeyindex];
+				animationChannelKey.time = vectorKey.mTime;
+				animationChannelKey.keyData.x = vectorKey.mValue.x;
+				animationChannelKey.keyData.y = vectorKey.mValue.y;
+				animationChannelKey.keyData.z = vectorKey.mValue.z;
+
+				animationChannel.positionKeys.push_back(animationChannelKey);
+			}
+
+			//旋转动画;  
+			animationChannel.numRotationKeys = channel->mNumRotationKeys;
+			for (size_t rotationkeyindex = 0; rotationkeyindex < channel->mNumRotationKeys; rotationkeyindex++) {
+				AnimationChannelKeyQuat animationChannelKey;
+				aiQuatKey quatKey = channel->mRotationKeys[rotationkeyindex];
+
+				animationChannelKey.time = quatKey.mTime;
+				animationChannelKey.keyData.x = quatKey.mValue.x;
+				animationChannelKey.keyData.y = quatKey.mValue.y;
+				animationChannelKey.keyData.z = quatKey.mValue.z;
+				animationChannelKey.keyData.w = quatKey.mValue.w;
+
+				animationChannel.rotationKeys.push_back(animationChannelKey);
+			}
+
+			//缩放动画;  
+			animationChannel.numScalingKeys = channel->mNumScalingKeys;
+			for (size_t scalingindex = 0; scalingindex < channel->mNumScalingKeys; scalingindex++) {
+				AnimationChannelKeyVec3 animationChannelKey;
+				aiVectorKey vectorKey = channel->mScalingKeys[scalingindex];
+
+				animationChannelKey.time = vectorKey.mTime;
+				animationChannelKey.keyData.x = vectorKey.mValue.x;
+				animationChannelKey.keyData.y = vectorKey.mValue.y;
+				animationChannelKey.keyData.z = vectorKey.mValue.z;
+
+				animationChannel.scalingKeys.push_back(animationChannelKey);
+			}
+			animation.channels.push_back(animationChannel);
+		}
+		animations.push_back(animation);
+	}
+}
+
+
+//从RootNode开始;
+void Model::TransformNode(const char* nodename, int framecount, glm::mat4& parenttransform) {
+	glm::mat4 GlobalTransformation;
+	for (size_t nodepairsindx = 0; nodepairsindx < nodepairs.size(); nodepairsindx++) {
+		if (strcmp(nodepairs[nodepairsindx].first.name, nodename) == 0) {
+			AnimationChannel animationChannel;
+			Bone bone;
+			memset(bone.name, NULL, sizeof(bone.name));
+
+			glm::mat4 nodeTransformation(nodepairs[nodepairsindx].first.transformation);
+
+			//找到和node同名的AnimationChannel;
+			for (int animationchannelindex = 0; animationchannelindex < animations[0].numChannels; animationchannelindex++) {
+				if (strcmp(animations[0].channels[animationchannelindex].nodeName, nodename) == 0) {
+					animationChannel = animations[0].channels[animationchannelindex];
+
+					//对AnimationChannel中的 Rotation Scaling Translate 进行插值(暂时还没有插值……);
+					//先直接用当前帧获取到对应的数据 用着。正确的应该是判断游戏时间和Animation时间的。
+					int rotationkeyindex = fmod(framecount, animationChannel.numRotationKeys);
+					AnimationChannelKeyQuat rotationkey = animationChannel.rotationKeys[rotationkeyindex];
+
+					int scalingkeyindex = fmod(framecount, animationChannel.numScalingKeys);
+					AnimationChannelKeyVec3 scalingkey = animationChannel.scalingKeys[scalingkeyindex];
+
+					int positionkeyindex = fmod(framecount, animationChannel.numPositionKeys);
+					AnimationChannelKeyVec3 positionKey = animationChannel.positionKeys[positionkeyindex];
+					
+					glm::mat4 rotationM = glm::mat4_cast(rotationkey.keyData);
+					glm::mat4 scalingM;
+					glm::scale(scalingM, scalingkey.keyData);
+					glm::mat4 translateM;
+					glm::translate(translateM, positionKey.keyData);
+
+					nodeTransformation = translateM*rotationM*scalingM;
+
+					break;
+				}
+			}
+			GlobalTransformation = parenttransform*nodeTransformation;
+
+			//找到同名的Bone;
+			for (size_t boneindex = 0; boneindex < this->meshes[0].bones.size(); boneindex++) {
+				bone = this->meshes[0].bones[boneindex];
+				if (strcmp(bone.name, nodename) == 0) {
+					bone.finalMatrix = globalInverseTransform*GlobalTransformation* bone.offsetMatrix;
+					this->meshes[0].bones[boneindex] = bone;
+					break;
+				}
+			}
+
+			//更新child;
+			for (size_t childindex = 0; childindex < nodepairs[nodepairsindx].second.size(); childindex++) {
+				if (strcmp(bone.name, "") == 0) {
+					glm::mat4 Identity;
+					TransformNode(nodepairs[nodepairsindx].second[childindex].name, framecount, Identity);
+				}
+				else {
+					TransformNode(nodepairs[nodepairsindx].second[childindex].name, framecount, GlobalTransformation);
+				}
+			}
+		}
+	}
+}
+
+
+void Model::OnDraw() {
+	framecount++;
+
+	Node rootNode;
+	for (size_t nodeindex = 0; nodeindex < nodes.size(); nodeindex++) {
+		Node node = nodes[nodeindex];
+		if (strcmp(node.parentName, "") == 0) {
+			rootNode = node;
+			break;
+		}
+	}
+
+	globalInverseTransform = rootNode.transformation;
+	//globalInverseTransform = glm::inverse(globalInverseTransform);
+
+	transforms.resize(meshes[0].bones.size());
+
+	glm::mat4 identity;
+	glm::mat4 rootnodetransform;
+	TransformNode(rootNode.name, framecount, identity * rootnodetransform);
+
+	for (size_t boneindex = 0; boneindex < meshes[0].bones.size(); boneindex++) {
+		transforms[boneindex] = meshes[0].bones[boneindex].finalMatrix;
+	}
+
+	//更新Vertex Position;
+	for (size_t vertexindex = 0; vertexindex < meshes[0].vertices.size(); vertexindex++) {
+		Vertex vertex = meshes[0].vertices[vertexindex];
+
+		//glm::vec4 animPosition;
+		glm::mat4 boneTransform;
+		//计算权重;
+		for (int weightindex = 0; weightindex < VERTEX_MAX_BONE; weightindex++) {
+			Weight weight = vertex.Weights[weightindex];
+			Bone bone = this->meshes[0].bones[weight.boneid];
+			boneTransform += bone.finalMatrix * weight.weight;
+			// animPosition += glm::vec4(vertex.Position, 1)* bone.offsetMatrix*weight.weight;
+		}
+
+		glm::vec4 animPosition(vertex.Position, 1.0f);
+		animPosition = boneTransform * animPosition;
+
+		vertex.animPosition = glm::vec3(animPosition);
+		meshes[0].vertices[vertexindex] = vertex;
+	}
+}
 
 vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName) {
 	vector<Texture> textures;

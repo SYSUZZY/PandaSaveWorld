@@ -26,6 +26,9 @@
     <Filter Include="src\controller">
       <UniqueIdentifier>{af009f7f-d7ba-4413-83be-b277c5f0b570}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\animation">
+      <UniqueIdentifier>{7f948e56-b7f1-4411-a398-9671dde3cc71}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -104,6 +107,24 @@
     </ClInclude>
     <ClInclude Include="MeteoriteController.h">
       <Filter>src\controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>src\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationChannel.h">
+      <Filter>src\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationChannelKey.h">
+      <Filter>src\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Bone.h">
+      <Filter>src\model</Filter>
+    </ClInclude>
+    <ClInclude Include="Weight.h">
+      <Filter>src\model</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>src\model</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

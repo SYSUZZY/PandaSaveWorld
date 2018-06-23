@@ -93,7 +93,7 @@ int main() {
 
 	playerController.initPlayer();
 
-	meteoriteController.initMeteorite();
+	//meteoriteController.initMeteorite();
 
 	// render loop
 	// -----------
@@ -114,7 +114,7 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		playerController.renderPlayer(&camera, deltaTime);
-		meteoriteController.renderMeteorite(&camera, deltaTime);
+		//meteoriteController.renderMeteorite(&camera, deltaTime);
 		sceneController.renderScene(&camera, deltaTime);
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

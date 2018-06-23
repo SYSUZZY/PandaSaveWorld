@@ -14,6 +14,8 @@
 #include "mesh.h"
 #include "stb_image.h"
 #include "shader.h"
+#include "Animation.h"
+#include "Node.h"
 
 #include <string>
 #include <fstream>
@@ -28,11 +30,19 @@ unsigned int TextureFromFile(const char *path, const string &directory, bool gam
 
 class Model {
 public:
+	/*  Node  */
+	vector<Node> nodes;
+
 	/*  Model Data */
 	vector<Texture> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
 	vector<Mesh> meshes;
+
+	/* Animation Data */
+	vector<Animation> animations;
+
 	string directory;
 	bool gammaCorrection;
+	int framecount = 0;
 
 	/*  Functions   */
 	// constructor, expects a filepath to a 3D model.
@@ -40,6 +50,8 @@ public:
 
 	// draws the model, and thus all its meshes
 	void Draw(Shader shader);
+
+	void OnDraw();
 
 private:
 	/*  Functions   */
@@ -54,5 +66,19 @@ private:
 	// checks all material textures of a given type and loads the textures if they're not loaded yet.
 	// the required info is returned as a Texture struct.
 	vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName);
+
+	// processAnimation
+	void processAnimation(const aiScene* scene);
+
+	
+
+	void TransformNode(const char* nodename, int framecount, glm::mat4& parenttransform);
+
+	/*  nodepairs node's child  */
+	std::vector<std::pair<Node, std::vector<Node>>> nodepairs;
+
+	glm::mat4 globalInverseTransform;
+
+	vector<glm::mat4> transforms;
 };
 #endif

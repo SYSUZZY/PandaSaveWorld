@@ -7,6 +7,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "shader.h"
+#include "Bone.h"
+#include "Weight.h"
 
 #include <string>
 #include <fstream>
@@ -21,6 +23,8 @@ struct Vertex {
 	glm::vec2 TexCoords;
 	glm::vec3 Tangent;
 	glm::vec3 Bitangent;
+	glm::vec3 animPosition;
+	Weight Weights[VERTEX_MAX_BONE];  //限定每个顶点受 VERTEX_MAX_BONE 个骨骼影响;
 };
 
 struct Texture {
@@ -35,14 +39,17 @@ public:
 	vector<Vertex> vertices;
 	vector<unsigned int> indices;
 	vector<Texture> textures;
+	vector<Bone> bones;
 	unsigned int VAO;
 
 	/*  Functions  */
 	// constructor
-	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
+	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures, vector<Bone> bones);
 
 	// render the mesh
 	void Draw(Shader shader);
+
+	void updateMesh();
 
 private:
 	/*  Render data  */
