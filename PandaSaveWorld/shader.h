@@ -49,6 +49,7 @@ public:
 
 	void setMat4(const std::string &name, const glm::mat4 &mat) const;
 
+	int getAttributeLocation(const std::string &name) const;
 private:
 
 	// utility function for checking shader compilation/linking errors.
