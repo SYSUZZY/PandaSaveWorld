@@ -86,7 +86,7 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
 		Vertex vertex;
 		glm::vec3 vector; // we declare a placeholder vector since assimp uses its own vector class that doesn't directly convert to glm's vec3 class so we transfer the data to this placeholder glm::vec3 first.
-						  // positions
+		// positions
 		vector.x = mesh->mVertices[i].x;
 		vector.y = mesh->mVertices[i].y;
 		vector.z = mesh->mVertices[i].z;
@@ -144,6 +144,7 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
 		for (unsigned int j = 0; j < face.mNumIndices; j++)
 			indices.push_back(face.mIndices[j]);
 	}
+
 	// process materials
 	aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 	// we assume a convention for sampler names in the shaders. Each diffuse texture should be named
@@ -159,12 +160,20 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
 	// 2. specular maps
 	vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-	// 3. normal maps
-	std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
-	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-	// 4. height maps
-	std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
+	//// 3. normal maps 法线贴图
+	//std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_NORMALS, "texture_normal");
+	//textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+	// 4. height maps 高度贴图
+	std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_height");
 	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+	//// 5. ambient maps 环境光贴图
+	//std::vector<Texture> ambientMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_ambient");
+	//textures.insert(textures.end(), ambientMaps.begin(), ambientMaps.end());
+	//// 6. ambient maps 环境光贴图
+	//std::vector<Texture> emissiveMaps = loadMaterialTextures(material, aiTextureType_EMISSIVE, "texture_emissive");
+	//textures.insert(textures.end(), emissiveMaps.begin(), emissiveMaps.end());
+
+
 
 	//Process bones;  
 	for (size_t boneindex = 0; boneindex < mesh->mNumBones; boneindex++) {

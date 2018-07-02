@@ -43,6 +43,8 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+
+
 int main() {
 	// glfw: initialize and configure
 	// ------------------------------
@@ -88,6 +90,7 @@ int main() {
 	// 初始化场景
 	// -----------------------------
 
+	//天空盒
 	Shader skyboxShader("../res/shader/skyboxShader.vs", "../res/shader/skyboxShader.fs");
 	float skyboxVertices[] = {
 		// positions          
@@ -148,21 +151,24 @@ int main() {
 	// -------------
 	vector<std::string> faces
 	{
-		"../res/texture/skybox/purplenebula_rt.tga",
-		"../res/texture/skybox/purplenebula_lf.tga",
-		"../res/texture/skybox/purplenebula_up.tga",
-		"../res/texture/skybox/purplenebula_dn.tga",
-		"../res/texture/skybox/purplenebula_bk.tga",
-		"../res/texture/skybox/purplenebula_ft.tga"
+		"../res/texture/skybox/Right.png",
+		"../res/texture/skybox/Left.png",
+		"../res/texture/skybox/Up.png",
+		"../res/texture/skybox/Down.png",
+		"../res/texture/skybox/Back.png",
+		"../res/texture/skybox/Front.png"
 	};
 	unsigned int cubemapTexture = loadCubemap(faces);
-
 	skyboxShader.use();
 	skyboxShader.setInt("skybox", 0);
 
+
+
+
+
 	sceneController.initScene();
 
-	playerController.initPlayer();
+	//playerController.initPlayer();
 
 	meteoriteController.initMeteorite();
 
@@ -181,16 +187,18 @@ int main() {
 
 		// render
 		// ------
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		playerController.renderPlayer(&camera, deltaTime);
 		meteoriteController.renderMeteorite(&camera, deltaTime);
 		sceneController.renderScene(&camera, deltaTime);
 
-		//skybox
+		glm::mat4 model = glm::mat4(1.5f);
 		glm::mat4 view = camera.GetViewMatrix();
 		glm::mat4 projection = glm::perspective(camera.Zoom, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 1000.0f);
+
+		//skybox
 		// draw skybox as last
 		glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
 		skyboxShader.use();
