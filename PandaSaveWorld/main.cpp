@@ -30,7 +30,7 @@ unsigned int loadCubemap(vector<std::string> faces);
 
 PhysicsEngine physicsEngine;
 SceneController sceneController(&physicsEngine);
-PlayerController playerController(&physicsEngine, glm::vec3(0.0f, 20.0f, 0.0f));
+PlayerController playerController(&physicsEngine, glm::vec3(-10.0f, 10.0f, 0.0f));
 MeteoriteController meteoriteController(&physicsEngine);
 
 // camera
@@ -164,7 +164,7 @@ int main() {
 
 	playerController.initPlayer();
 
-	//meteoriteController.initMeteorite();
+	meteoriteController.initMeteorite();
 
 	// render loop
 	// -----------
@@ -185,7 +185,7 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		playerController.renderPlayer(&camera, deltaTime);
-		//meteoriteController.renderMeteorite(&camera, deltaTime);
+		meteoriteController.renderMeteorite(&camera, deltaTime);
 		sceneController.renderScene(&camera, deltaTime);
 
 		//skybox
@@ -222,24 +222,28 @@ int main() {
 void processInput(GLFWwindow *window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera.ProcessKeyboard(FORWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera.ProcessKeyboard(BACKWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera.ProcessKeyboard(LEFT, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera.ProcessKeyboard(RIGHT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		playerController.ProcessKeyboard(FORWARD, deltaTime);
+		camera.ProcessKeyboard(FORWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		playerController.ProcessKeyboard(BACKWARD, deltaTime);
+		camera.ProcessKeyboard(BACKWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		playerController.ProcessKeyboard(LEFT, deltaTime);
+		camera.ProcessKeyboard(LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+		camera.ProcessKeyboard(RIGHT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		playerController.ProcessKeyboard(FORWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		playerController.ProcessKeyboard(BACKWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		playerController.ProcessKeyboard(LEFT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		playerController.ProcessKeyboard(RIGHT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		playerController.ProcessKeyboard(UP, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+		playerController.ProcessKeyboard(LEFTROTATE, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+		playerController.ProcessKeyboard(RIGHTROTATE, deltaTime);
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes

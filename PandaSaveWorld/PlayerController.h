@@ -15,7 +15,7 @@ class PlayerController : public BaseController {
 public:
 
 	PlayerController(PhysicsEngine* physicsEngine, glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
-		glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW);
+		glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = 90);
 
 	// Constructor with scalar values
 	PlayerController(PhysicsEngine* physicsEngine, float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw);
@@ -23,8 +23,7 @@ public:
 	// Processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
 	void ProcessKeyboard(Movement direction, float deltaTime);
 
-	// Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
-	void ProcessMouseMovement(float xoffset, float yoffset);
+	void RotatePlayer(float xoffset);
 
 	// ³õÊ¼»¯Íæ¼Ò
 	void initPlayer();

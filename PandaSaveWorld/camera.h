@@ -14,7 +14,9 @@ enum Movement {
 	BACKWARD,
 	LEFT,
 	RIGHT,
-	UP
+	UP,
+	LEFTROTATE,
+	RIGHTROTATE
 };
 
 // Default camera values

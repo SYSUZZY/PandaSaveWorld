@@ -2,7 +2,7 @@
 
 PlayerController::PlayerController(PhysicsEngine* physicsEngine, glm::vec3 position,
 	glm::vec3 up, float yaw) : Front(glm::vec3(0.0f, 0.0f, -1.0f)),
-	MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY) {
+	MovementSpeed(MoveSpeed), MouseSensitivity(SENSITIVITY) {
 	_physicsEngine = physicsEngine;
 	Position = position;
 	WorldUp = up;
@@ -13,7 +13,7 @@ PlayerController::PlayerController(PhysicsEngine* physicsEngine, glm::vec3 posit
 
 PlayerController::PlayerController(PhysicsEngine * physicsEngine, float posX, float posY, 
 	float posZ, float upX, float upY, float upZ, float yaw) : Front(glm::vec3(0.0f, 0.0f, -1.0f)),
-	MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY) {
+	MovementSpeed(MoveSpeed), MouseSensitivity(SENSITIVITY) {
 	_physicsEngine = physicsEngine;
 	Position = glm::vec3(posX, posY, posZ);
 	WorldUp = glm::vec3(upX, upY, upZ);
@@ -39,6 +39,10 @@ void PlayerController::ProcessKeyboard(Movement direction, float deltaTime) {
 			_physicsEngine->jumpAndUpdateVelocity();
 		_physicsEngine->isJumping = true;
 	}
+	if (direction == LEFTROTATE)
+		RotatePlayer(-10);
+	if (direction == RIGHTROTATE)
+		RotatePlayer(10);
 
 	// Åö×²¼ì²âºó¸üÐÂPosition
 	_physicsEngine->checkOutsideCollision(Position, Target);
@@ -48,8 +52,7 @@ void PlayerController::ProcessKeyboard(Movement direction, float deltaTime) {
 	// std::cout << "x: " << Position.x << "y: " << Position.y << "z: " << Position.z << std::endl;
 }
 
-void PlayerController::ProcessMouseMovement(float xoffset, float yoffset) {
-	xoffset *= MouseSensitivity;
+void PlayerController::RotatePlayer(float xoffset) {
 	Yaw += xoffset;
 
 	// Update Front, Right and Up Vectors using the updated Euler angles
@@ -78,6 +81,8 @@ void PlayerController::renderPlayer(Camera * currentCamera, float deltaTime) {
 	glm::mat4 model_panda;
 	model_panda = glm::translate(model_panda, Position);
 	model_panda = glm::scale(model_panda, glm::vec3(0.01f, 0.01f, 0.01f));	// it's a bit too big for our scene, so scale it down
+	model_panda = glm::rotate(model_panda, -90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+	model_panda = glm::rotate(model_panda, Yaw, glm::vec3(0.0f, 0.0f, 1.0f));
 	pandaShader->setMat4("model", model_panda);
 
 	Model *panda = getModel("panda");
