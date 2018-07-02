@@ -82,7 +82,7 @@ void PlayerController::renderPlayer(Camera * currentCamera, float deltaTime) {
 	model_panda = glm::translate(model_panda, Position);
 	model_panda = glm::scale(model_panda, glm::vec3(0.01f, 0.01f, 0.01f));	// it's a bit too big for our scene, so scale it down
 	model_panda = glm::rotate(model_panda, -90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
-	model_panda = glm::rotate(model_panda, Yaw, glm::vec3(0.0f, 0.0f, 1.0f));
+	model_panda = glm::rotate(model_panda, 90.0f - Yaw, glm::vec3(0.0f, 0.0f, 1.0f));
 	pandaShader->setMat4("model", model_panda);
 
 	Model *panda = getModel("panda");

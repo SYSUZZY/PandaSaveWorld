@@ -14,8 +14,7 @@ class PlayerController : public BaseController {
 
 public:
 
-	PlayerController(PhysicsEngine* physicsEngine, glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
-		glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = 90);
+	PlayerController(PhysicsEngine* physicsEngine, glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = 90.0f);
 
 	// Constructor with scalar values
 	PlayerController(PhysicsEngine* physicsEngine, float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw);
