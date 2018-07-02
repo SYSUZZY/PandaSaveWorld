@@ -90,64 +90,6 @@ int main() {
 	// 初始化场景
 	// -----------------------------
 
-	//添加光源
-	Shader lampShader("../res/shader/lamp.vs", "../res/shader/lamp.fs");
-	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-
-		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
-	};
-	unsigned int lightVAO,VBO;
-	glGenVertexArrays(1, &lightVAO);
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glBindVertexArray(lightVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	// note that we update the lamp's position attribute's stride to reflect the updated buffer data
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-
-
 	//天空盒
 	Shader skyboxShader("../res/shader/skyboxShader.vs", "../res/shader/skyboxShader.fs");
 	float skyboxVertices[] = {
@@ -209,19 +151,20 @@ int main() {
 	// -------------
 	vector<std::string> faces
 	{
-		"../res/texture/skybox/purplenebula_rt.tga",
-		"../res/texture/skybox/purplenebula_lf.tga",
-		"../res/texture/skybox/purplenebula_up.tga",
-		"../res/texture/skybox/purplenebula_dn.tga",
-		"../res/texture/skybox/purplenebula_bk.tga",
-		"../res/texture/skybox/purplenebula_ft.tga"
+		"../res/texture/skybox/Right.png",
+		"../res/texture/skybox/Left.png",
+		"../res/texture/skybox/Up.png",
+		"../res/texture/skybox/Down.png",
+		"../res/texture/skybox/Back.png",
+		"../res/texture/skybox/Front.png"
 	};
 	unsigned int cubemapTexture = loadCubemap(faces);
-
 	skyboxShader.use();
 	skyboxShader.setInt("skybox", 0);
-	//glm::vec3 lightPos(5.0f, 10.0f, 3.0f);
-	glm::vec3 lightPos(25.0f, 50.0f, 30.0f);
+
+
+
+
 
 	sceneController.initScene();
 
@@ -244,7 +187,7 @@ int main() {
 
 		// render
 		// ------
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//playerController.renderPlayer(&camera, deltaTime);
@@ -254,15 +197,6 @@ int main() {
 		glm::mat4 model = glm::mat4(1.5f);
 		glm::mat4 view = camera.GetViewMatrix();
 		glm::mat4 projection = glm::perspective(camera.Zoom, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 1000.0f);
-
-		lampShader.use();
-		lampShader.setMat4("projection", projection);
-		lampShader.setMat4("view", view);
-		model = glm::translate(model, lightPos);
-		model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
-		lampShader.setMat4("model", model);
-		glBindVertexArray(lightVAO);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		//skybox
 		// draw skybox as last
