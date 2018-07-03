@@ -26,7 +26,4 @@ public:
 private:
 	// ÉèÖÃÅö×²ºĞ×Ó
 	void setSceneCollisionBox();
-	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
-	unsigned int depthMapFBO;
-	unsigned int depthMap;
 };

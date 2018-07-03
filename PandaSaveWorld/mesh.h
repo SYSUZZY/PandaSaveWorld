@@ -18,10 +18,10 @@
 using namespace std;
 
 struct Vertex {
-	glm::vec3 Position;   //顶点位置
-	glm::vec3 Normal;     //法向量
+	glm::vec3 Position;
+	glm::vec3 Normal;
 	glm::vec2 TexCoords;
-	glm::vec3 Tangent;    //切线 ，属于切线空间
+	glm::vec3 Tangent;
 	glm::vec3 Bitangent;
 	glm::vec3 animPosition;
 	Weight Weights[VERTEX_MAX_BONE];  //限定每个顶点受 VERTEX_MAX_BONE 个骨骼影响;
