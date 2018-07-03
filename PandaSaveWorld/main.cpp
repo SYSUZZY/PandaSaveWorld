@@ -163,13 +163,8 @@ int main() {
 	skyboxShader.setInt("skybox", 0);
 
 
-
-
-
 	sceneController.initScene();
-
-	//playerController.initPlayer();
-
+	playerController.initPlayer();
 	meteoriteController.initMeteorite();
 
 	// render loop
