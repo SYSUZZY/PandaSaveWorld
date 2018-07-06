@@ -148,12 +148,12 @@ int main() {
 	// -------------
 	vector<std::string> faces
 	{
-		"../res/texture/skybox/purplenebula_rt.tga",
-		"../res/texture/skybox/purplenebula_lf.tga",
-		"../res/texture/skybox/purplenebula_up.tga",
-		"../res/texture/skybox/purplenebula_dn.tga",
-		"../res/texture/skybox/purplenebula_bk.tga",
-		"../res/texture/skybox/purplenebula_ft.tga"
+		"../res/texture/skybox/Right.png",
+		"../res/texture/skybox/Left.png",
+		"../res/texture/skybox/Up.png",
+		"../res/texture/skybox/Down.png",
+		"../res/texture/skybox/Back.png",
+		"../res/texture/skybox/Front.png"
 	};
 	unsigned int cubemapTexture = loadCubemap(faces);
 
