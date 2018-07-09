@@ -31,5 +31,5 @@ void SceneController::setSceneCollisionBox() {
 	_physicsEngine->setSceneOuterBoundary(glm::vec2(-1600, -2700), glm::vec2(2600, 370));
 	_physicsEngine->setSceneInnerBoundary(glm::vec3(-1600, -14, -2700), glm::vec3(2600, -10, 370));
 
-	_physicsEngine->setSceneInnerBoundary(glm::vec3(-1160, -10, -600), glm::vec3(2600, 5, -200));
+	//_physicsEngine->setSceneInnerBoundary(glm::vec3(-1600, -10, -600), glm::vec3(-, -10, 370));
 }
