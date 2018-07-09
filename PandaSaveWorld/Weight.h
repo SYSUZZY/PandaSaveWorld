@@ -1,6 +1,6 @@
 #pragma once
 
-#define VERTEX_MAX_BONE 5
+#define VERTEX_MAX_BONE 4
 
 class Weight
 {

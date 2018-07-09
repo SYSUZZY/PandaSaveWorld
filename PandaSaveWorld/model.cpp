@@ -25,7 +25,6 @@ void Model::loadModel(string const &path) {
 
 	// process ASSIMP's root node recursively
 	processNode(scene->mRootNode, scene);
-
 	processAnimation(scene);
 }
 
@@ -47,10 +46,10 @@ void Model::processNode(aiNode *node, const aiScene *scene) {
 		Node tempChildNode;
 		memcpy(tempChildNode.name, node->mChildren[i]->mName.C_Str(), node->mChildren[i]->mName.length + 1);
 		aiMatrix4x4 tempMatrix = node->mChildren[i]->mTransformation;
-		tempChildNode.transformation = glm::mat4(tempMatrix.a1, tempMatrix.a2, tempMatrix.a3, tempMatrix.a4,
-			tempMatrix.b1, tempMatrix.b2, tempMatrix.b3, tempMatrix.b4,
-			tempMatrix.c1, tempMatrix.c2, tempMatrix.c3, tempMatrix.c4,
-			tempMatrix.d1, tempMatrix.d2, tempMatrix.d3, tempMatrix.d4);
+		tempChildNode.transformation = glm::mat4(tempMatrix.a1, tempMatrix.b1, tempMatrix.c1, tempMatrix.d1,
+			tempMatrix.a2, tempMatrix.b2, tempMatrix.c2, tempMatrix.d2,
+			tempMatrix.a3, tempMatrix.b3, tempMatrix.c3, tempMatrix.d3,
+			tempMatrix.a4, tempMatrix.b4, tempMatrix.c4, tempMatrix.d4);
 		memcpy(tempChildNode.parentName, node->mName.C_Str(), node->mName.length + 1);
 
 		childs.push_back(tempChildNode);
@@ -61,10 +60,10 @@ void Model::processNode(aiNode *node, const aiScene *scene) {
 	Node tempNode; 
 	memcpy(tempNode.name, node->mName.C_Str(), node->mName.length + 1);
 	aiMatrix4x4 tempMatrix = node->mTransformation;
-	tempNode.transformation = glm::mat4(tempMatrix.a1, tempMatrix.a2, tempMatrix.a3, tempMatrix.a4,
-		tempMatrix.b1, tempMatrix.b2, tempMatrix.b3, tempMatrix.b4,
-		tempMatrix.c1, tempMatrix.c2, tempMatrix.c3, tempMatrix.c4,
-		tempMatrix.d1, tempMatrix.d2, tempMatrix.d3, tempMatrix.d4);
+	tempNode.transformation = glm::mat4(tempMatrix.a1, tempMatrix.b1, tempMatrix.c1, tempMatrix.d1,
+		tempMatrix.a2, tempMatrix.b2, tempMatrix.c2, tempMatrix.d2,
+		tempMatrix.a3, tempMatrix.b3, tempMatrix.c3, tempMatrix.d3,
+		tempMatrix.a4, tempMatrix.b4, tempMatrix.c4, tempMatrix.d4);
 	if (node->mParent)
 		memcpy(tempNode.parentName, node->mParent->mName.C_Str(), node->mParent->mName.length + 1);
 	else
@@ -171,11 +170,10 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
 		Bone bone;
 		aiBone* bonesrc = mesh->mBones[boneindex];
 		memcpy(bone.name, bonesrc->mName.C_Str(), bonesrc->mName.length + 1);
-		for (size_t xindex = 0; xindex < 4; xindex++) {
-			for (size_t yindex = 0; yindex < 4; yindex++) {
-				bone.offsetMatrix[xindex][yindex] = bonesrc->mOffsetMatrix[xindex][yindex];
-			}
-		}
+		bone.offsetMatrix = glm::mat4(bonesrc->mOffsetMatrix.a1, bonesrc->mOffsetMatrix.b1, bonesrc->mOffsetMatrix.c1, bonesrc->mOffsetMatrix.d1,
+			bonesrc->mOffsetMatrix.a2, bonesrc->mOffsetMatrix.b2, bonesrc->mOffsetMatrix.c2, bonesrc->mOffsetMatrix.d2,
+			bonesrc->mOffsetMatrix.a3, bonesrc->mOffsetMatrix.b3, bonesrc->mOffsetMatrix.c3, bonesrc->mOffsetMatrix.d3,
+			bonesrc->mOffsetMatrix.a4, bonesrc->mOffsetMatrix.b4, bonesrc->mOffsetMatrix.c4, bonesrc->mOffsetMatrix.d4);
 		bones.push_back(bone);
 	}
 
@@ -248,7 +246,6 @@ void Model::processAnimation(const aiScene* scene) {
 	}
 }
 
-
 //从RootNode开始;
 void Model::TransformNode(const char* nodename, int framecount, glm::mat4& parenttransform) {
 	glm::mat4 GlobalTransformation;
@@ -290,14 +287,17 @@ void Model::TransformNode(const char* nodename, int framecount, glm::mat4& paren
 			GlobalTransformation = parenttransform*nodeTransformation;
 
 			//找到同名的Bone;
-			for (size_t boneindex = 0; boneindex < this->meshes[0].bones.size(); boneindex++) {
-				bone = this->meshes[0].bones[boneindex];
-				if (strcmp(bone.name, nodename) == 0) {
-					bone.finalMatrix = globalInverseTransform*GlobalTransformation* bone.offsetMatrix;
-					this->meshes[0].bones[boneindex] = bone;
-					break;
+			for (size_t meshindex = 0; meshindex < this->meshes.size(); meshindex++) {
+				for (size_t boneindex = 0; boneindex < this->meshes[meshindex].bones.size(); boneindex++) {
+					bone = this->meshes[meshindex].bones[boneindex];
+					if (strcmp(bone.name, nodename) == 0) {
+						bone.finalMatrix = globalInverseTransform*GlobalTransformation* bone.offsetMatrix;
+						this->meshes[meshindex].bones[boneindex] = bone;
+						break;
+					}
 				}
 			}
+			
 
 			//更新child;
 			for (size_t childindex = 0; childindex < nodepairs[nodepairsindx].second.size(); childindex++) {
@@ -327,38 +327,40 @@ void Model::OnDraw() {
 	}
 
 	globalInverseTransform = rootNode.transformation;
-	//globalInverseTransform = glm::inverse(globalInverseTransform);
+	globalInverseTransform = glm::inverse(globalInverseTransform);
 
-	transforms.resize(meshes[0].bones.size());
+	//transforms.resize(meshes[0].bones.size());
 
 	glm::mat4 identity;
 	glm::mat4 rootnodetransform;
 	TransformNode(rootNode.name, framecount, identity * rootnodetransform);
 
-	for (size_t boneindex = 0; boneindex < meshes[0].bones.size(); boneindex++) {
-		transforms[boneindex] = meshes[0].bones[boneindex].finalMatrix;
-	}
+	//for (size_t boneindex = 0; boneindex < meshes[0].bones.size(); boneindex++) {
+	//	transforms[boneindex] = meshes[0].bones[boneindex].finalMatrix;
+	//}
 
 	//更新Vertex Position;
-	for (size_t vertexindex = 0; vertexindex < meshes[0].vertices.size(); vertexindex++) {
-		Vertex vertex = meshes[0].vertices[vertexindex];
+	for (size_t meshindex = 0; meshindex < this->meshes.size(); meshindex++) {
+		for (size_t vertexindex = 0; vertexindex < meshes[meshindex].vertices.size(); vertexindex++) {
+			Vertex vertex = meshes[meshindex].vertices[vertexindex];
 
-		//glm::vec4 animPosition;
-		glm::mat4 boneTransform;
-		//计算权重;
-		for (int weightindex = 0; weightindex < VERTEX_MAX_BONE; weightindex++) {
-			Weight weight = vertex.Weights[weightindex];
-			Bone bone = this->meshes[0].bones[weight.boneid];
-			boneTransform += bone.finalMatrix * weight.weight;
-			// animPosition += glm::vec4(vertex.Position, 1)* bone.offsetMatrix*weight.weight;
+			glm::mat4 boneTransform;
+
+			//计算权重;
+			for (int weightindex = 0; weightindex < VERTEX_MAX_BONE; weightindex++) {
+				Weight weight = vertex.Weights[weightindex];
+				Bone bone = this->meshes[meshindex].bones[weight.boneid];
+				boneTransform += bone.finalMatrix * weight.weight;
+			}
+
+			glm::vec4 animPosition(vertex.Position, 1.0f);
+			animPosition = boneTransform * animPosition;
+
+			vertex.animPosition = glm::vec3(animPosition);
+			meshes[meshindex].vertices[vertexindex] = vertex;
 		}
-
-		glm::vec4 animPosition(vertex.Position, 1.0f);
-		animPosition = boneTransform * animPosition;
-
-		vertex.animPosition = glm::vec3(animPosition);
-		meshes[0].vertices[vertexindex] = vertex;
 	}
+	
 }
 
 vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName) {

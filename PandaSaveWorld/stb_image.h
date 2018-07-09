@@ -3911,7 +3911,7 @@ typedef struct
 	char *zout;
 	char *zout_start;
 	char *zout_end;
-	int   z_expandable;
+	int   z_exphoenixble;
 
 	stbi__zhuffman z_length, z_distance;
 } stbi__zbuf;
@@ -3978,7 +3978,7 @@ static int stbi__zexpand(stbi__zbuf *z, char *zout, int n)  // need to make room
 	char *q;
 	int cur, limit, old_limit;
 	z->zout = zout;
-	if (!z->z_expandable) return stbi__err("output buffer limit", "Corrupt PNG");
+	if (!z->z_exphoenixble) return stbi__err("output buffer limit", "Corrupt PNG");
 	cur = (int)(z->zout - z->zout_start);
 	limit = old_limit = (int)(z->zout_end - z->zout_start);
 	while (cur + n > limit)
@@ -4207,7 +4207,7 @@ static int stbi__do_zlib(stbi__zbuf *a, char *obuf, int olen, int exp, int parse
 	a->zout_start = obuf;
 	a->zout = obuf;
 	a->zout_end = obuf + olen;
-	a->z_expandable = exp;
+	a->z_exphoenixble = exp;
 
 	return stbi__parse_zlib(a, parse_header);
 }

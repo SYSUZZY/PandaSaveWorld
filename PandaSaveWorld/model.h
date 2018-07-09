@@ -70,8 +70,6 @@ private:
 	// processAnimation
 	void processAnimation(const aiScene* scene);
 
-	
-
 	void TransformNode(const char* nodename, int framecount, glm::mat4& parenttransform);
 
 	/*  nodepairs node's child  */

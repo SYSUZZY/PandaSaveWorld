@@ -60,36 +60,38 @@ void PlayerController::RotatePlayer(float xoffset) {
 }
 
 void PlayerController::initPlayer() {
-	BaseController::compileShader("../res/shader/1.model_loading.vs", "../res/shader/1.model_loading.fs", "panda");
-	BaseController::loadModel("../res/model/Panda_animation/panda.FBX", "panda");
+	BaseController::compileShader("../res/shader/1.model_loading.vs", "../res/shader/1.model_loading.fs", "phoenix");
+	BaseController::loadModel("../res/model2/phoenix_obj/phoenix.FBX", "phoenix");
 }
 
 void PlayerController::renderPlayer(Camera * currentCamera, float deltaTime) {
-	// render panda
-	Shader *pandaShader = getShader("panda");
-	pandaShader->use();
+	// render phoenix
+	Shader *phoenixShader = getShader("phoenix");
+	phoenixShader->use();
 	glm::mat4 projection = glm::perspective(currentCamera->Zoom, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 1000.0f);
 	glm::mat4 view = currentCamera->GetViewMatrix();
-	pandaShader->setMat4("projection", projection);
-	pandaShader->setMat4("view", view);
+	phoenixShader->setMat4("projection", projection);
+	phoenixShader->setMat4("view", view);
 
-	// 更新panda的位置
+	// 更新phoenix的位置
 	updatePlayerMovement();
 	std::cout << "x: " << Position.x << "y: " << Position.y << "z: " << Position.z << std::endl;
 
 	// 更新骨骼动画
-	glm::mat4 model_panda;
-	model_panda = glm::translate(model_panda, Position);
-	model_panda = glm::scale(model_panda, glm::vec3(0.01f, 0.01f, 0.01f));	// it's a bit too big for our scene, so scale it down
-	model_panda = glm::rotate(model_panda, -90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
-	model_panda = glm::rotate(model_panda, 90.0f - Yaw, glm::vec3(0.0f, 0.0f, 1.0f));
-	pandaShader->setMat4("model", model_panda);
+	glm::mat4 model_phoenix;
+	model_phoenix = glm::translate(model_phoenix, Position);
+	model_phoenix = glm::scale(model_phoenix, glm::vec3(0.01f, 0.01f, 0.01f));	// it's a bit too big for our scene, so scale it down
+	model_phoenix = glm::rotate(model_phoenix, -90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+	model_phoenix = glm::rotate(model_phoenix, 90.0f - Yaw, glm::vec3(0.0f, 0.0f, 1.0f));
+	phoenixShader->setMat4("model", model_phoenix);
 
-	Model *panda = getModel("panda");
-	panda->OnDraw();
-	panda->meshes[0].updateMesh();
-
-	panda->Draw(*pandaShader);
+	Model *phoenix = getModel("phoenix");
+	//phoenix->OnDraw();
+	for (int i = 0; i < phoenix->meshes.size(); i++) {
+		//phoenix->meshes[i].updateMesh();
+	}
+	
+	phoenix->Draw(*phoenixShader);
 }
 
 

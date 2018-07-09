@@ -13,7 +13,7 @@ using namespace std;
 #define min(x,y) ((x) < (y) ? (x) : (y))
 #define max(x,y) ((x) < (y) ? (y) : (x))
 
-#define PandaHeight 1.0f           // 玩家头到脚的高度
+#define phoenixHeight 1.0f           // 玩家头到脚的高度
 #define GravityAcceleration -9.8f
 #define MoveSpeed 5.0f            // 玩家移动速度
 #define BoundaryGap 0.1f           // 碰撞间距

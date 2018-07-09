@@ -99,7 +99,7 @@ void PhysicsEngine::checkInsideCollision(glm::vec3 & cameraPos, glm::vec3 & targ
 
 void PhysicsEngine::checkInsideCollisionXYZ(glm::vec3 innerBoundaryMin, glm::vec3 innerBoundaryMax, glm::vec3 & cameraPos, glm::vec3 & targetPos) {
 	//当身体处于碰撞体垂直区域范围内，才进行XZ平面的碰撞检测
-	if (!(cameraPos.y + PandaHeight <= innerBoundaryMin.y || cameraPos.y >= innerBoundaryMax.y)) {
+	if (!(cameraPos.y + phoenixHeight <= innerBoundaryMin.y || cameraPos.y >= innerBoundaryMax.y)) {
 		checkInsideCollisionXZ(innerBoundaryMin, innerBoundaryMax, cameraPos, targetPos);
 	}
 }
@@ -240,7 +240,7 @@ void PhysicsEngine::updateItemMovement(glm::vec3 & cameraPos, glm::vec3 & target
 		//如果在XZ平面进入碰撞体所在区域
 		if (insideTheCollider(cameraPos, innerBoundaryMin[i], innerBoundaryMax[i])) {
 			if (cameraPos.y <= innerBoundaryMax[i][1]
-				&& cameraPos.y + PandaHeight >= innerBoundaryMax[i][1]) {              // 脚接触到碰撞体顶部
+				&& cameraPos.y + phoenixHeight >= innerBoundaryMax[i][1]) {              // 脚接触到碰撞体顶部
 																		 // cout << "touch the top of collider" << endl;
 				isJumping = false;
 				accelerationUp.y = -GravityAcceleration;
@@ -249,7 +249,7 @@ void PhysicsEngine::updateItemMovement(glm::vec3 & cameraPos, glm::vec3 & target
 				break;
 			}
 
-			if (cameraPos.y + PandaHeight >= innerBoundaryMin[i][1] &&
+			if (cameraPos.y + phoenixHeight >= innerBoundaryMin[i][1] &&
 				cameraPos.y <= innerBoundaryMin[i][1]) {    // 头接触到碰撞体底部
 																		  // cout << "touch the bottom of collider" << endl;
 				velocity.y = 0.f;
