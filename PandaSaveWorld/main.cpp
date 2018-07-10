@@ -30,11 +30,11 @@ unsigned int loadCubemap(vector<std::string> faces);
 
 PhysicsEngine physicsEngine;
 SceneController sceneController(&physicsEngine);
-PlayerController playerController(&physicsEngine, glm::vec3(-10.0f, 10.0f, 0.0f));
+PlayerController playerController(&physicsEngine, glm::vec3(219.285f, 405.22f, -1835.48f));
 MeteoriteController meteoriteController(&physicsEngine);
 
 // camera
-Camera camera(glm::vec3(0.0f, 1.0f, -20.0f));
+Camera camera(glm::vec3(219.285f, 495.22f, -1658.48));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -182,7 +182,7 @@ int main() {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		//playerController.renderPlayer(&camera, deltaTime);
+		playerController.renderPlayer(&camera, deltaTime);
 		meteoriteController.renderMeteorite(&camera, deltaTime);
 		sceneController.renderScene(&camera, deltaTime);
 

@@ -80,15 +80,15 @@ void PlayerController::renderPlayer(Camera * currentCamera, float deltaTime) {
 	// ¸üÐÂ¹Ç÷À¶¯»­
 	glm::mat4 model_phoenix;
 	model_phoenix = glm::translate(model_phoenix, Position);
-	model_phoenix = glm::scale(model_phoenix, glm::vec3(0.01f, 0.01f, 0.01f));	// it's a bit too big for our scene, so scale it down
+	model_phoenix = glm::scale(model_phoenix, glm::vec3(0.1f, 0.1f, 0.1f));	// it's a bit too big for our scene, so scale it down
 	model_phoenix = glm::rotate(model_phoenix, -90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
-	model_phoenix = glm::rotate(model_phoenix, 90.0f - Yaw, glm::vec3(0.0f, 0.0f, 1.0f));
+	model_phoenix = glm::rotate(model_phoenix, - Yaw, glm::vec3(0.0f, 0.0f, 1.0f));
 	phoenixShader->setMat4("model", model_phoenix);
 
 	Model *phoenix = getModel("phoenix");
-	//phoenix->OnDraw();
+	phoenix->OnDraw();
 	for (int i = 0; i < phoenix->meshes.size(); i++) {
-		//phoenix->meshes[i].updateMesh();
+		phoenix->meshes[i].updateMesh();
 	}
 	
 	phoenix->Draw(*phoenixShader);

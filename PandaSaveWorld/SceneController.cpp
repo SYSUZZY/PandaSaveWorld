@@ -31,5 +31,18 @@ void SceneController::setSceneCollisionBox() {
 	_physicsEngine->setSceneOuterBoundary(glm::vec2(-1600, -2700), glm::vec2(2600, 370));
 	_physicsEngine->setSceneInnerBoundary(glm::vec3(-1600, -14, -2700), glm::vec3(2600, -10, 370));
 
-	//_physicsEngine->setSceneInnerBoundary(glm::vec3(-1600, -10, -600), glm::vec3(-, -10, 370));
+	// 第一层
+	_physicsEngine->setSceneInnerBoundary(glm::vec3(-1693,  -12, - 2465), glm::vec3(1759, 697, - 1978));
+
+	// 第二层
+	_physicsEngine->setSceneInnerBoundary(glm::vec3(-650, 235, -2500), glm::vec3(1380, 360, -1450));
+
+	// 祭台
+	_physicsEngine->setSceneInnerBoundary(glm::vec3(106, 360, -1865), glm::vec3(314, 395, -1710));
+
+	// 第三层
+	_physicsEngine->setSceneInnerBoundary(glm::vec3(-879, 104, -2008), glm::vec3(1827, 235, -1435));
+
+	// 第四层
+	_physicsEngine->setSceneInnerBoundary(glm::vec3(-1400, -10, -2400), glm::vec3(2925, 104, 10));
 }

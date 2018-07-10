@@ -73,7 +73,7 @@ private:
 	void TransformNode(const char* nodename, int framecount, glm::mat4& parenttransform);
 
 	/*  nodepairs node's child  */
-	std::vector<std::pair<Node, std::vector<Node>>> nodepairs;
+	std::map<string, std::pair<Node, std::vector<Node>>> nodepairs;
 
 	glm::mat4 globalInverseTransform;
 
