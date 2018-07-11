@@ -1,23 +1,25 @@
 #include "PlayerController.h"
 
 PlayerController::PlayerController(PhysicsEngine* physicsEngine, glm::vec3 position,
-	glm::vec3 up, float yaw) : Front(glm::vec3(0.0f, 0.0f, -1.0f)),
+	glm::vec3 up, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)),
 	MovementSpeed(MoveSpeed), MouseSensitivity(SENSITIVITY) {
 	_physicsEngine = physicsEngine;
 	Position = position;
 	WorldUp = up;
 	Yaw = yaw;
+	Pitch = pitch;
 	updatePlayerVectors();
 }
 
 
 PlayerController::PlayerController(PhysicsEngine * physicsEngine, float posX, float posY, 
-	float posZ, float upX, float upY, float upZ, float yaw) : Front(glm::vec3(0.0f, 0.0f, -1.0f)),
+	float posZ, float upX, float upY, float upZ, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)),
 	MovementSpeed(MoveSpeed), MouseSensitivity(SENSITIVITY) {
 	_physicsEngine = physicsEngine;
 	Position = glm::vec3(posX, posY, posZ);
 	WorldUp = glm::vec3(upX, upY, upZ);
 	Yaw = yaw;
+	Pitch = pitch;
 	updatePlayerVectors();
 }
 
@@ -75,13 +77,18 @@ void PlayerController::renderPlayer(Camera * currentCamera, float deltaTime) {
 
 	// 更新phoenix的位置
 	updatePlayerMovement();
-	std::cout << "x: " << Position.x << "y: " << Position.y << "z: " << Position.z << std::endl;
+	//std::cout << "x: " << Position.x << "y: " << Position.y << "z: " << Position.z << std::endl;
 
 	// 更新骨骼动画
 	glm::mat4 model_phoenix;
+	Yaw = currentCamera->Yaw;
+	Pitch = currentCamera->Pitch;
+	updatePlayerVectors();
+	currentCamera->Position = Position - Front * 80.0f + glm::vec3(0.0f, 20.0f, 0.0f);
+
 	model_phoenix = glm::translate(model_phoenix, Position);
-	model_phoenix = glm::scale(model_phoenix, glm::vec3(0.1f, 0.1f, 0.1f));	// it's a bit too big for our scene, so scale it down
-	model_phoenix = glm::rotate(model_phoenix, -90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+	model_phoenix = glm::scale(model_phoenix, glm::vec3(0.05f, 0.05f, 0.05f));	// it's a bit too big for our scene, so scale it down
+	model_phoenix = glm::rotate(model_phoenix, -90.0f - Pitch, glm::vec3(1.0f, 0.0f, 0.0f));
 	model_phoenix = glm::rotate(model_phoenix, - Yaw, glm::vec3(0.0f, 0.0f, 1.0f));
 	phoenixShader->setMat4("model", model_phoenix);
 
@@ -98,9 +105,9 @@ void PlayerController::renderPlayer(Camera * currentCamera, float deltaTime) {
 void PlayerController::updatePlayerVectors() {
 	// Calculate the new Front vector
 	glm::vec3 front;
-	front.x = cos(glm::radians(Yaw));
-	front.y = 0.0;
-	front.z = sin(glm::radians(Yaw));
+	front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+	front.y = sin(glm::radians(Pitch));
+	front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
 	Front = glm::normalize(front);
 	// Also re-calculate the Right and Up vector
 	Right = glm::normalize(glm::cross(Front, WorldUp));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.

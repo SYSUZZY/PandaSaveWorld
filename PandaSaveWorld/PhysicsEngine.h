@@ -15,11 +15,11 @@ using namespace std;
 
 #define phoenixHeight 1.0f           // 玩家头到脚的高度
 #define GravityAcceleration -9.8f
-#define MoveSpeed 10.0f            // 玩家移动速度
+#define MoveSpeed 50.0f            // 玩家移动速度
 #define BoundaryGap 0.1f           // 碰撞间距
-#define JumpInitialSpeed 30.0f     // 起跳初速度
-#define JumpFactor 0.05f           // 跳起速度系数
-#define GravityFactor 0.2f        // 下落速度系数
+#define JumpInitialSpeed 0.0f     // 起跳初速度
+#define JumpFactor 0.0f           // 跳起速度系数
+#define GravityFactor 0.0f        // 下落速度系数
 
 class PhysicsEngine {
 

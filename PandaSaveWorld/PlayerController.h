@@ -14,10 +14,10 @@ class PlayerController : public BaseController {
 
 public:
 
-	PlayerController(PhysicsEngine* physicsEngine, glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = 90.0f);
+	PlayerController(PhysicsEngine* physicsEngine, glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = 90.0f, float pitch = 0.0f);
 
 	// Constructor with scalar values
-	PlayerController(PhysicsEngine* physicsEngine, float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw);
+	PlayerController(PhysicsEngine* physicsEngine, float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);
 
 	// Processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
 	void ProcessKeyboard(Movement direction, float deltaTime);
@@ -39,6 +39,7 @@ public:
 	glm::vec3 WorldUp;
 	// Euler Angles
 	float Yaw;
+	float Pitch;
 	// player options
 	float MovementSpeed;
 	float MouseSensitivity;

@@ -231,10 +231,6 @@ void PhysicsEngine::updateItemMovement(glm::vec3 & cameraPos, glm::vec3 & target
 	cameraPos += velocity * JumpFactor;
 	targetPos += velocity * JumpFactor;
 
-	if (cameraPos.y < 2.0f) {
-		cout << cameraPos.y << endl;
-	}
-	cout << cameraPos.y << endl;
 	//检测所有碰撞体
 	for (int i = 0; i < innerBoundaryMin.size(); i++) {
 		//如果在XZ平面进入碰撞体所在区域

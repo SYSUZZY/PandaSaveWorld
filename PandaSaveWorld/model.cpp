@@ -350,7 +350,7 @@ void Model::OnDraw() {
 			meshes[meshindex].vertices[vertexindex] = vertex;
 		}
 	}
-	
+
 }
 
 vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName) {

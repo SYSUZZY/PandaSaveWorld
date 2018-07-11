@@ -30,7 +30,7 @@ unsigned int loadCubemap(vector<std::string> faces);
 
 PhysicsEngine physicsEngine;
 SceneController sceneController(&physicsEngine);
-PlayerController playerController(&physicsEngine, glm::vec3(219.285f, 405.22f, -1835.48f));
+PlayerController playerController(&physicsEngine, glm::vec3(219.285f, 405.22f, -1815.48f));
 MeteoriteController meteoriteController(&physicsEngine);
 
 // camera
@@ -182,9 +182,10 @@ int main() {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		sceneController.renderScene(&camera, deltaTime);
 		playerController.renderPlayer(&camera, deltaTime);
 		meteoriteController.renderMeteorite(&camera, deltaTime);
-		sceneController.renderScene(&camera, deltaTime);
+		
 
 		//skybox
 		glm::mat4 view = camera.GetViewMatrix();
