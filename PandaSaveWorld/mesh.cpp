@@ -36,6 +36,9 @@ void Mesh::Draw(Shader shader) {
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 	}
 
+	if (!this->transform.empty())
+		shader.setMat4Array("gBones", this->transform);
+
 	// draw mesh
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
@@ -82,6 +85,12 @@ void Mesh::setupMesh() {
 	// vertex animPosition
 	glEnableVertexAttribArray(5);
 	glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, animPosition));
+	// vertex weight
+	glEnableVertexAttribArray(6);
+	glVertexAttribIPointer(6, 4, GL_INT, sizeof(Vertex), (void*)offsetof(Vertex, boneIDs));
+
+	glEnableVertexAttribArray(7);
+	glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, weights));
 
 	glBindVertexArray(0);
 }
@@ -100,8 +109,9 @@ void Mesh::updateMesh() {
 
 	// set the vertex attribute pointers
 	// vertex Positions
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, animPosition));
+	/*glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, animPosition));*/
+
 
 	// vertex texture coords
 	glEnableVertexAttribArray(2);

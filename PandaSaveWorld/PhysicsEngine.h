@@ -13,6 +13,7 @@ using namespace std;
 #define min(x,y) ((x) < (y) ? (x) : (y))
 #define max(x,y) ((x) < (y) ? (y) : (x))
 
+// 由于改用飞行的凤凰，因此重力和跳跃的系数置为零，倘若要检查重力的跳跃的功能，可以手动更改这部分代码，将数值设置为不为零即可
 #define phoenixHeight 1.0f           // 玩家头到脚的高度
 #define GravityAcceleration -9.8f
 #define MoveSpeed 50.0f            // 玩家移动速度

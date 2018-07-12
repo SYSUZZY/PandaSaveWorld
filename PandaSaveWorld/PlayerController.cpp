@@ -62,7 +62,7 @@ void PlayerController::RotatePlayer(float xoffset) {
 }
 
 void PlayerController::initPlayer() {
-	BaseController::compileShader("../res/shader/1.model_loading.vs", "../res/shader/1.model_loading.fs", "phoenix");
+	BaseController::compileShader("../res/shader/player.vs", "../res/shader/player.fs", "phoenix");
 	BaseController::loadModel("../res/model2/phoenix_obj/phoenix.FBX", "phoenix");
 }
 
@@ -70,6 +70,7 @@ void PlayerController::renderPlayer(Camera * currentCamera, float deltaTime) {
 	// render phoenix
 	Shader *phoenixShader = getShader("phoenix");
 	phoenixShader->use();
+
 	glm::mat4 projection = glm::perspective(currentCamera->Zoom, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 1000.0f);
 	glm::mat4 view = currentCamera->GetViewMatrix();
 	phoenixShader->setMat4("projection", projection);
@@ -94,10 +95,10 @@ void PlayerController::renderPlayer(Camera * currentCamera, float deltaTime) {
 
 	Model *phoenix = getModel("phoenix");
 	phoenix->OnDraw();
+
 	for (int i = 0; i < phoenix->meshes.size(); i++) {
 		phoenix->meshes[i].updateMesh();
 	}
-	
 	phoenix->Draw(*phoenixShader);
 }
 
