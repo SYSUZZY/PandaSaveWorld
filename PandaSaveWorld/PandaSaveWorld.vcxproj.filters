@@ -70,6 +70,12 @@
     <ClCompile Include="MeteoriteController.cpp">
       <Filter>src\controller</Filter>
     </ClCompile>
+    <ClCompile Include="OceanController.cpp">
+      <Filter>src\controller</Filter>
+    </ClCompile>
+    <ClCompile Include="util.cpp">
+      <Filter>src\tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="model.h">
@@ -108,23 +114,11 @@
     <ClInclude Include="MeteoriteController.h">
       <Filter>src\controller</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>src\animation</Filter>
+    <ClInclude Include="OceanController.h">
+      <Filter>src\controller</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationChannel.h">
-      <Filter>src\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationChannelKey.h">
-      <Filter>src\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="Bone.h">
-      <Filter>src\model</Filter>
-    </ClInclude>
-    <ClInclude Include="Weight.h">
-      <Filter>src\model</Filter>
-    </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>src\model</Filter>
+    <ClInclude Include="util.h">
+      <Filter>src\tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

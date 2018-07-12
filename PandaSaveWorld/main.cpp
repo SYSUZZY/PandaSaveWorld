@@ -19,6 +19,7 @@
 #include "SceneController.h"
 #include "PlayerController.h"
 #include "MeteoriteController.h"
+#include "OceanController.h"
 
 #include <iostream>
 
@@ -32,6 +33,7 @@ PhysicsEngine physicsEngine;
 SceneController sceneController(&physicsEngine);
 PlayerController playerController(&physicsEngine, glm::vec3(219.285f, 405.22f, -1815.48f));
 MeteoriteController meteoriteController(&physicsEngine);
+OceanController oceanController(&physicsEngine);
 
 // camera
 Camera camera(glm::vec3(219.285f, 495.22f, -1658.48));
@@ -47,10 +49,10 @@ int main() {
 	// glfw: initialize and configure
 	// ------------------------------
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	/*glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);*/
 
 #ifdef __APPLE__
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // uncomment this statement to fix compilation on OS X
@@ -163,6 +165,7 @@ int main() {
 	sceneController.initScene();
 	playerController.initPlayer();
 	meteoriteController.initMeteorite();
+	oceanController.initOcean();
 
 	// render loop
 	// -----------
@@ -182,27 +185,27 @@ int main() {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		sceneController.renderScene(&camera, deltaTime);
-		playerController.renderPlayer(&camera, deltaTime);
-		meteoriteController.renderMeteorite(&camera, deltaTime);
-		
+		//sceneController.renderScene(&camera, deltaTime);
+		//playerController.renderPlayer(&camera, deltaTime);
+		//meteoriteController.renderMeteorite(&camera, deltaTime);
+		oceanController.renderOcean(&camera, deltaTime);
 
-		//skybox
-		glm::mat4 view = camera.GetViewMatrix();
-		glm::mat4 projection = glm::perspective(camera.Zoom, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 1000.0f);
-		// draw skybox as last
-		glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
-		skyboxShader.use();
-		view = glm::mat4(glm::mat3(camera.GetViewMatrix())); // remove translation from the view matrix
-		skyboxShader.setMat4("view", view);
-		skyboxShader.setMat4("projection", projection);
-		// skybox cube
-		glBindVertexArray(skyboxVAO);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		glBindVertexArray(0);
-		glDepthFunc(GL_LESS); // set depth function back to default
+		////skybox
+		//glm::mat4 view = camera.GetViewMatrix();
+		//glm::mat4 projection = glm::perspective(camera.Zoom, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 1000.0f);
+		//// draw skybox as last
+		//glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
+		//skyboxShader.use();
+		//view = glm::mat4(glm::mat3(camera.GetViewMatrix())); // remove translation from the view matrix
+		//skyboxShader.setMat4("view", view);
+		//skyboxShader.setMat4("projection", projection);
+		//// skybox cube
+		//glBindVertexArray(skyboxVAO);
+		//glActiveTexture(GL_TEXTURE0);
+		//glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+		//glDrawArrays(GL_TRIANGLES, 0, 36);
+		//glBindVertexArray(0);
+		//glDepthFunc(GL_LESS); // set depth function back to default
 
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
