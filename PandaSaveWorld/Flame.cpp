@@ -36,7 +36,7 @@ Flame::~Flame(){}
 bool Flame::InitFlame(glm::vec3 & pos) {
 	//初始化属性
 	center = glm::vec3(0.0f, 0.0f, 0.0f);// 火焰中心位置
-	radius = 0.9f;// 火焰地区半径
+	radius = 16.0f;// 火焰地区半径
 
 	// 初始化粒子
 	FlameParticle particles[MAX_PARTICLES];
@@ -193,7 +193,7 @@ void Flame::InitRandomTexture(unsigned int size) {
 void Flame::GenInitLocation(FlameParticle particles[], int nums) {
 	srand(time(NULL));
 	int n = 10;
-	float Adj_value = 0.05f;
+	//float Adj_value = 0.05f;
 	//float radius = 0.3f;
 	for (int x = 0; x < nums; x++) {
 		glm::vec3 record(0.0f);
@@ -209,7 +209,7 @@ void Flame::GenInitLocation(FlameParticle particles[], int nums) {
 		particles[x].type = PARTICLE_TYPE_LAUNCHER;
 		particles[x].position = record;
 		particles[x].velocity = DEL_VELOC*(float(rand()) / float(RAND_MAX)) + MIN_VELOC;//在最大最小速度之间随机选择
-		particles[x].alpha = 0.0f;// 原始值为1.0f
+		particles[x].alpha = 1.0f;// 原始值为1.0f
 		particles[x].size = INIT_SIZE;//发射器粒子大小
 										//在最短最长寿命之间随机选择
 		particles[x].lifetimeMills = (MAX_LIFE - MIN_LIFE)*(float(rand()) / float(RAND_MAX)) + MIN_LIFE;

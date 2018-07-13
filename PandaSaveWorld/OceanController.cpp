@@ -1,6 +1,5 @@
 #include "OceanController.h"
 
-
 static void infoLog(GLuint, PFNGLGETSHADERIVPROC, PFNGLGETSHADERINFOLOGPROC);
 void *readShader(const char *, GLint *);
 static GLuint initShader(GLenum, const char *);

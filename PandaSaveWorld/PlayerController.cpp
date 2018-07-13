@@ -51,7 +51,8 @@ void PlayerController::ProcessKeyboard(Movement direction, float deltaTime) {
 	_physicsEngine->checkInsideCollision(Position, Target);
 	Position = Target;
 
-	// std::cout << "x: " << Position.x << "y: " << Position.y << "z: " << Position.z << std::endl;
+	// to comment
+	std::cout << "x: " << Position.x << "y: " << Position.y << "z: " << Position.z << std::endl;
 }
 
 void PlayerController::RotatePlayer(float xoffset) {
