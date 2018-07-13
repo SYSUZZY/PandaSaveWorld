@@ -21,8 +21,8 @@
 #include "BaseController.h"
 #include "camera.h"
 
-#define SCREEN_WIDTH	800
-#define SCREEN_HEIGHT	600
+#define SCREEN_WIDTH	1000
+#define SCREEN_HEIGHT	1000
 
 #define START_X		-4.0
 #define START_Y		-2.5

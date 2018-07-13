@@ -36,7 +36,7 @@ Flame::~Flame(){}
 bool Flame::InitFlame(glm::vec3 & pos) {
 	//初始化属性
 	center = glm::vec3(0.0f, 0.0f, 0.0f);// 火焰中心位置
-	radius = 16.0f;// 火焰地区半径
+	radius = 10.0f;// 火焰地区半径
 
 	// 初始化粒子
 	FlameParticle particles[MAX_PARTICLES];
@@ -132,9 +132,9 @@ void Flame::RenderParticles(glm::mat4& worldMatrix,
 	glm::mat4& viewMatrix, glm::mat4& projectMatrix) {
 	glEnable(GL_POINT_SPRITE);
 	glEnable(GL_PROGRAM_POINT_SIZE);
-	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+	//glBlendFunc(GL_DST_ALPHA, GL_ONE);
 
 	mRenderShader->use();
 	mRenderShader->setMat4("model", worldMatrix);
@@ -169,7 +169,6 @@ void Flame::RenderParticles(glm::mat4& worldMatrix,
 	glDisable(GL_POINT_SPRITE);
 	glDisable(GL_PROGRAM_POINT_SIZE);
 	glDisable(GL_BLEND);
-	glEnable(GL_DEPTH_TEST);
 }
 
 void Flame::InitRandomTexture(unsigned int size) {
