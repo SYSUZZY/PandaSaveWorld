@@ -50,6 +50,8 @@ public:
 
 	// draws the model, and thus all its meshes
 	void Draw(Shader shader);
+	void DrawScene(Shader shader, unsigned int id);
+	void shadowDebug(Shader shader, unsigned int id);
 
 	void OnDraw();
 
@@ -73,7 +75,7 @@ private:
 	void TransformNode(const char* nodename, int framecount, glm::mat4& parenttransform);
 
 	/*  nodepairs node's child  */
-	std::map<string, std::pair<Node, std::vector<Node>>> nodepairs;
+	std::vector<std::pair<Node, std::vector<Node>>> nodepairs;
 
 	glm::mat4 globalInverseTransform;
 
