@@ -21,7 +21,7 @@
 	//最短生命周期
 #define MIN_LIFE 0.1f*1000//原始值1.0f*1000
 	//初始点精灵大小
-#define INIT_SIZE 30.0f;
+#define INIT_SIZE 1.0f;
 
 const int MAX_PARTICLES = 18000;//定义粒子发射系统最大的粒子数，极限值为18000
 //初始发射器例子数量
