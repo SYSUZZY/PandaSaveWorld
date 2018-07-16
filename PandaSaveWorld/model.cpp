@@ -9,6 +9,15 @@ void Model::Draw(Shader shader) {
 	for (unsigned int i = 0; i < meshes.size(); i++)
 		meshes[i].Draw(shader);
 }
+void Model::DrawScene(Shader shader, unsigned int id) {
+	for (unsigned int i = 0; i < meshes.size(); i++)
+		meshes[i].DrawScene(shader, id);
+}
+
+void Model::shadowDebug(Shader shader, unsigned int id) {
+	for (unsigned int i = 0; i < meshes.size(); i++)
+		meshes[i].shadowDebug(shader, id);
+}
 
 
 void Model::loadModel(string const &path) {

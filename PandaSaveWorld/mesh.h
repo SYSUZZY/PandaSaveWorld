@@ -52,6 +52,8 @@ public:
 
 	// render the mesh
 	void Draw(Shader shader);
+	void DrawScene(Shader shader, unsigned int id);
+	void shadowDebug(Shader shader, unsigned int id);
 
 	void updateMesh();
 

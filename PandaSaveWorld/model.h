@@ -50,6 +50,8 @@ public:
 
 	// draws the model, and thus all its meshes
 	void Draw(Shader shader);
+	void DrawScene(Shader shader, unsigned int id);
+	void shadowDebug(Shader shader, unsigned int id);
 
 	void OnDraw();
 
