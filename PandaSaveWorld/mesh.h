@@ -24,7 +24,9 @@ struct Vertex {
 	glm::vec3 Tangent;
 	glm::vec3 Bitangent;
 	glm::vec3 animPosition;
-	Weight Weights[VERTEX_MAX_BONE];  //限定每个顶点受 VERTEX_MAX_BONE 个骨骼影响;
+	unsigned int boneIDs[VERTEX_MAX_BONE];
+	float weights[VERTEX_MAX_BONE];
+	//Weight Weights[VERTEX_MAX_BONE];  //限定每个顶点受 VERTEX_MAX_BONE 个骨骼影响;
 };
 
 struct Texture {
@@ -42,14 +44,14 @@ public:
 	vector<Bone> bones;
 	unsigned int VAO;
 
+	vector<glm::mat4> transform;
+
 	/*  Functions  */
 	// constructor
 	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures, vector<Bone> bones);
 
 	// render the mesh
 	void Draw(Shader shader);
-	void DrawScene(Shader shader, unsigned int id);
-	void shadowDebug(Shader shader, unsigned int id);
 
 	void updateMesh();
 
